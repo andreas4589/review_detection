@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+import nltk
 
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
@@ -43,36 +44,37 @@ def split_data(data, test_size=0.25, random_state=1):
     )
 
 
-def create_bag_of_words(X_train_text, X_test_text):
-    """Create a bag-of-words representation."""
+def create_bag_of_words(X_train_text, X_test_text, use_stop_words=True, top_n=500):
+    """Create a bag-of-words representation using the top N words."""
 
-    vectorizer = CountVectorizer()
+    # Load NLTK English stopwords
+    stop_words = nltk.corpus.stopwords.words("english")
 
+    vectorizer = CountVectorizer(
+        max_features=top_n,
+        stop_words=(stop_words if use_stop_words else None)
+    )
+
+    # Fit only on training data
     X_train = vectorizer.fit_transform(X_train_text)
     X_test = vectorizer.transform(X_test_text)
 
-    return X_train, X_test, vectorizer
-
-
-def get_word_frequencies(X_train, vectorizer, top_n=500):
-    """Get the top N most frequent words."""
-
+    # Calculate frequencies of selected words
     word_frequencies = X_train.sum(axis=0).A1
 
     frequency_df = pd.DataFrame({
         "word": vectorizer.get_feature_names_out(),
         "frequency": word_frequencies
-    })
-
-    frequency_df = frequency_df.sort_values(
+    }).sort_values(
         by="frequency",
         ascending=False
-    )
+    ).reset_index(drop=True)
 
-    return frequency_df.head(top_n)
+    return X_train, X_test, vectorizer, frequency_df
 
 
-def dataloader(top_n=500):
+
+def dataloader(use_stop_words=True, top_n=500):
     data = load_data()
 
     # Preprocess reviews
@@ -81,16 +83,11 @@ def dataloader(top_n=500):
     # Split data
     X_train_text, X_test_text, y_train, y_test = split_data(data)
 
-    # Create bag-of-words representation
-    X_train, X_test, vectorizer = create_bag_of_words(
+    # Create BoW using only top N features
+    X_train, X_test, vectorizer, frequency_df = create_bag_of_words(
         X_train_text,
-        X_test_text
-    )
-
-    # Get top N word frequencies
-    frequency_df = get_word_frequencies(
-        X_train,
-        vectorizer,
+        X_test_text,
+        use_stop_words=use_stop_words,
         top_n=top_n
     )
 
@@ -98,17 +95,18 @@ def dataloader(top_n=500):
 
 
 if __name__ == "__main__":
-    X_train, X_test, y_train, y_test, vectorizer, frequency_df = dataloader(top_n=500)
-    
+    X_train, X_test, y_train, y_test, vectorizer, frequency_df = dataloader(
+        use_stop_words=True,
+        top_n=500
+    )
+
     print("Training set shape:", X_train.shape)
     print("Test set shape:", X_test.shape)
-    
-    # Save frequencies
+
     frequency_df.to_csv(
         "./data/word_frequencies.csv",
         index=False
     )
 
-    # Display top 20
     print("\nTop 20 most frequent words:")
     print(frequency_df.head(20))
