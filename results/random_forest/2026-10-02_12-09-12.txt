@@ -1,0 +1,13 @@
+Model: random_forest
+Date: 2026-10-02_12-09-12
+
+Parameters:
+	Use stop words: True
+	Top N words: 500
+	Number of features: 500
+
+Results:
+	Accuracy:  0.9180
+	Precision: 0.9197
+	Recall:    0.9160
+	F1 Score:  0.9178

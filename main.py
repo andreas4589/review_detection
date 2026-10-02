@@ -1,40 +1,44 @@
 from dataloader import dataloader
-from models.logistic_regression import train_logistic_regression
-from sklearn.metrics import precision_score, recall_score, f1_score
-
+from util import get_model, evaluate_model, save_results
 
 if __name__ == "__main__":
     USE_STOP_WORDS = True
     TOP_N = 500
-    
+
+    # 0: Naive Bayes, 1: Logistic Regression, 2: Decision Tree, 3: Random Forest, 4: Gradient Boosting
+    MODEL = 1
+
     X_train, X_test, y_train, y_test, vectorizer, frequency_df = dataloader(
         use_stop_words=USE_STOP_WORDS,
         top_n=TOP_N
     )
-    
-    print("Parameters:")
+
+    print("Params:")
     print(f"Use stop words: {USE_STOP_WORDS}")
     print(f"Top N words: {TOP_N}")
-    
-    print("\nTraining set shape:", X_train.shape)
-    print("Test set shape:", X_test.shape)
-    
+
+    print("\nTraining shape:", X_train.shape)
+    print("Test shape:", X_test.shape)
+
     print("\nTop 5 words by frequency:")
     print(frequency_df.head(5))
 
     print("\nTraining model...")
-    model = train_logistic_regression(X_train, y_train)
-    
+    model, model_name = get_model(MODEL, X_train, y_train)
+
     print("\nEvaluating model...")
-    y_pred = model.predict(X_test)
+    results = evaluate_model(model, X_test, y_test)
 
-    # Calculate evaluation metrics
-    accuracy = model.score(X_test, y_test)
-    precision = precision_score(y_test, y_pred)
-    recall = recall_score(y_test, y_pred)
-    f1 = f1_score(y_test, y_pred)
+    print(f"Accuracy:  {results['accuracy']:.4f}")
+    print(f"Precision: {results['precision']:.4f}")
+    print(f"Recall:    {results['recall']:.4f}")
+    print(f"F1 Score:  {results['f1']:.4f}")
 
-    print(f"Accuracy:  {accuracy:.4f}")
-    print(f"Precision: {precision:.4f}")
-    print(f"Recall:    {recall:.4f}")
-    print(f"F1 Score:  {f1:.4f}")
+    save_results(
+        model_name,
+        USE_STOP_WORDS,
+        TOP_N,
+        X_train.shape[1],
+        results
+    )
+    print(f"\nResults saved in ./results/{model_name}/")

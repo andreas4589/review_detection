@@ -1,0 +1,13 @@
+Model: decision_tree
+Date: 2026-10-02_12-09-01
+
+Parameters:
+	Use stop words: True
+	Top N words: 500
+	Number of features: 500
+
+Results:
+	Accuracy:  0.7920
+	Precision: 0.7808
+	Recall:    0.8120
+	F1 Score:  0.7961
