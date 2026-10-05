@@ -1,0 +1,17 @@
+Model: decision_tree
+Date: 2026-10-05_17-31-10
+
+Parameters:
+	Use stop words: True
+	Top N words: 500
+	Number of features: 500
+	ccp_alpha: 0.0
+	class_weight: None
+	criterion: entropy
+	min_samples_leaf: 5
+
+Results:
+	Accuracy:  0.8160
+	Precision: 0.8319
+	Recall:    0.7920
+	F1 Score:  0.8115

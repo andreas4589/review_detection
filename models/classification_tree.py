@@ -1,33 +1,29 @@
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.model_selection import GridSearchCV
 
 
-def train_decision_tree(X_train, y_train, scoring="accuracy"):
-    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-
-    # Candidate pruning strengths from the cost-complexity path.
-    # Drop the last alpha (it prunes the tree down to just the root)
-    # and thin the list so the grid stays small.
-    path = DecisionTreeClassifier(random_state=42).cost_complexity_pruning_path(X_train, y_train)
-    alphas = np.unique(path.ccp_alphas[:-1])
-    if len(alphas) > 20:
-        alphas = np.quantile(alphas, np.linspace(0, 1, 20))
+def train_decision_tree(X_train, y_train):
+    model = DecisionTreeClassifier(random_state=1)
 
     param_grid = {
         "criterion": ["gini", "entropy"],
         "min_samples_leaf": [1, 2, 5],
         "class_weight": [None, "balanced"],
-        "ccp_alpha": alphas,
+        "ccp_alpha": [0.0, 0.1, 0.2],
     }
 
-    grid = GridSearchCV(
-        estimator=DecisionTreeClassifier(random_state=42),
+    grid_search = GridSearchCV(
+        estimator=model,
         param_grid=param_grid,
-        cv=cv,
-        scoring=scoring,   # use "f1_macro" if your classes are imbalanced
+        cv=5,
+        scoring="accuracy",
         n_jobs=-1,
     )
-    grid.fit(X_train, y_train)
+    
+    grid_search.fit(X_train, y_train)
+    
+    print("Best parameters:", grid_search.best_params_)
+    print("Best CV accuracy:", grid_search.best_score_)
 
-    return grid.best_estimator_, grid.best_params_
+    return grid_search.best_estimator_, grid_search.best_params_

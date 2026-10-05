@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     # 0: Naive Bayes, 1: Logistic Regression,
     # 2: Decision Tree, 3: Random Forest, 4: Gradient Boosting
-    MODEL = 1
+    MODEL = 4
 
     X_train, X_test, y_train, y_test, vectorizer, frequency_df = dataloader(
         use_stop_words=USE_STOP_WORDS,

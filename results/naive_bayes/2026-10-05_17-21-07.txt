@@ -1,0 +1,14 @@
+Model: naive_bayes
+Date: 2026-10-05_17-21-07
+
+Parameters:
+	Use stop words: True
+	Top N words: 500
+	Number of features: 500
+	alpha: 1.0
+
+Results:
+	Accuracy:  0.9200
+	Precision: 0.8947
+	Recall:    0.9520
+	F1 Score:  0.9225
