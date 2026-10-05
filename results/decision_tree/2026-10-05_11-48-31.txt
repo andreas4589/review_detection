@@ -1,0 +1,17 @@
+Model: decision_tree
+Date: 2026-10-05_11-48-31
+
+Parameters:
+	Use stop words: True
+	Top N words: 500
+	Number of features: 500
+	ccp_alpha: 0.0020753462603878116
+	class_weight: None
+	criterion: gini
+	min_samples_leaf: 2
+
+Results:
+	Accuracy:  0.8120
+	Precision: 0.7910
+	Recall:    0.8480
+	F1 Score:  0.8185

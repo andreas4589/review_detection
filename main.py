@@ -1,12 +1,14 @@
 from dataloader import dataloader
 from util import get_model, evaluate_model, save_results
 
+
 if __name__ == "__main__":
     USE_STOP_WORDS = True
     TOP_N = 500
 
-    # 0: Naive Bayes, 1: Logistic Regression, 2: Decision Tree, 3: Random Forest, 4: Gradient Boosting
-    MODEL = 4
+    # 0: Naive Bayes, 1: Logistic Regression,
+    # 2: Decision Tree, 3: Random Forest, 4: Gradient Boosting
+    MODEL = 1
 
     X_train, X_test, y_train, y_test, vectorizer, frequency_df = dataloader(
         use_stop_words=USE_STOP_WORDS,
@@ -24,7 +26,11 @@ if __name__ == "__main__":
     print(frequency_df.head(5))
 
     print("\nTraining model...")
-    model, model_name = get_model(MODEL, X_train, y_train)
+    model, model_name, params = get_model(
+        MODEL,
+        X_train,
+        y_train
+    )
 
     print("\nEvaluating model...")
     results = evaluate_model(model, X_test, y_test)
@@ -39,6 +45,8 @@ if __name__ == "__main__":
         USE_STOP_WORDS,
         TOP_N,
         X_train.shape[1],
+        params,
         results
     )
+
     print(f"\nResults saved in ./results/{model_name}/")

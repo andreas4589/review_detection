@@ -27,5 +27,4 @@ def train_logistic_regression(X_train, y_train):
     print("Best parameters:", grid_search.best_params_)
     print("Best CV accuracy:", grid_search.best_score_)
 
-    final_model = grid_search.best_estimator_
-    return final_model
+    return grid_search.best_estimator_, grid_search.best_params_

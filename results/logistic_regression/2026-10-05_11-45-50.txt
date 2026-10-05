@@ -1,0 +1,14 @@
+Model: logistic_regression
+Date: 2026-10-05_11-45-50
+
+Parameters:
+	Use stop words: True
+	Top N words: 500
+	Number of features: 500
+	C: 1
+
+Results:
+	Accuracy:  0.9240
+	Precision: 0.9274
+	Recall:    0.9200
+	F1 Score:  0.9237

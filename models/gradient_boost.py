@@ -22,4 +22,5 @@ def train_gradient_boosting(X_train, y_train, scoring="accuracy"):
 
     print("Best params:", grid_search.best_params_)
     print(f"Best CV {scoring}: {grid_search.best_score_:.4f}")
-    return grid_search.best_estimator_
+    
+    return grid_search.best_estimator_, grid_search.best_params_

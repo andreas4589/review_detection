@@ -1,0 +1,17 @@
+Model: gradient_boosting
+Date: 2026-10-05_11-46-38
+
+Parameters:
+	Use stop words: True
+	Top N words: 500
+	Number of features: 500
+	learning_rate: 0.03
+	max_depth: 3
+	n_estimators: 700
+	subsample: 0.8
+
+Results:
+	Accuracy:  0.9060
+	Precision: 0.9247
+	Recall:    0.8840
+	F1 Score:  0.9039
