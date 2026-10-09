@@ -1,24 +1,36 @@
-from dataloader import dataloader
-from util import get_model, evaluate_model, save_results
-
+from src.dataloader import dataloader
+from src.util import get_model, evaluate_model, save_results
 
 if __name__ == "__main__":
-    USE_STOP_WORDS = True
-    TOP_N = 500
+    
+    PARAMS = {
+        "Use stop words": True,
+        "Lemmatization": False,
+        "Top N words": 2000, # None: off
+        "Min doc frequency": 1, # 1: off
+        "Max doc frequency": 1.0, # 1.0: off
+        "Chi2": False, # False: off,
+        "TF-IDF": False, # False: off
+        "N-grams": (1, 1) # (1, 1): off
+    }
 
     # 0: Naive Bayes, 1: Logistic Regression,
     # 2: Decision Tree, 3: Random Forest, 4: Gradient Boosting
-    MODEL = 0
+    MODEL = 4
 
-    X_train, X_test, y_train, y_test, vectorizer, frequency_df = dataloader(
-        use_stop_words=USE_STOP_WORDS,
-        top_n=TOP_N
+    X_train, X_test, y_train, y_test, vectorizer, frequency_df, selector = dataloader(
+        PARAMS
     )
 
     print("Params:")
-    print(f"Use stop words: {USE_STOP_WORDS}")
-    print(f"Top N words: {TOP_N}")
-
+    for key, value in PARAMS.items():
+        print(f"{key}: {value}")
+        
+    if selector is not None:
+        selected_features = vectorizer.get_feature_names_out()[selector.get_support()]
+        print("Number of selected features:", len(selected_features))
+        print("Selected features:", selected_features)
+    
     print("\nTraining shape:", X_train.shape)
     print("Test shape:", X_test.shape)
 
@@ -42,8 +54,7 @@ if __name__ == "__main__":
 
     save_results(
         model_name,
-        USE_STOP_WORDS,
-        TOP_N,
+        PARAMS,
         X_train.shape[1],
         params,
         results

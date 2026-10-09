@@ -6,12 +6,12 @@ def train_logistic_regression(X_train, y_train):
     model = LogisticRegression(
         penalty="l1",
         solver="liblinear",
-        max_iter=1000,
         random_state=1
     )
 
     param_grid = {
-        "C": [0.01, 0.1, 1, 10, 100]
+        "C": [0.01, 0.1, 1, 10, 100],
+        "max_iter": [250, 500, 1000, 1500, 2000]
     }
 
     grid_search = GridSearchCV(

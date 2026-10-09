@@ -52,8 +52,7 @@ def evaluate_model(model, X_test, y_test):
 
 def save_results(
     model_name,
-    use_stop_words,
-    top_n,
+    PARAMS,
     num_features,
     params,
     results
@@ -68,8 +67,8 @@ def save_results(
         file.write(f"Date: {timestamp}\n\n")
 
         file.write("Parameters:\n")
-        file.write(f"\tUse stop words: {use_stop_words}\n")
-        file.write(f"\tTop N words: {top_n}\n")
+        for key, value in PARAMS.items():
+            file.write(f"\t{key}: {value}\n")
         file.write(f"\tNumber of features: {num_features}\n")
 
         for name, value in params.items():

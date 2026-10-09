@@ -1,0 +1,22 @@
+Model: gradient_boosting
+Date: 2026-10-09_13-29-10
+
+Parameters:
+	Use stop words: True
+	Top N words: 500
+	Min doc frequency: 1
+	Max doc frequency: 1.0
+	Chi2: False
+	TF-IDF: False
+	N-grams: (1, 2)
+	Number of features: 500
+	learning_rate: 0.03
+	max_depth: 5
+	n_estimators: 700
+	subsample: 0.8
+
+Results:
+	Accuracy:  0.9160
+	Precision: 0.9194
+	Recall:    0.9120
+	F1 Score:  0.9157

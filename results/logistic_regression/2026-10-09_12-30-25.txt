@@ -1,0 +1,15 @@
+Model: logistic_regression
+Date: 2026-10-09_12-30-25
+
+Parameters:
+	Use stop words: True
+	Top N words: None
+	Min doc frequency: 0.05
+	Number of features: 84
+	C: 1
+
+Results:
+	Accuracy:  0.8820
+	Precision: 0.8898
+	Recall:    0.8720
+	F1 Score:  0.8808
